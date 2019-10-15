@@ -14,9 +14,9 @@ calc = Browser.sandbox
 
 -- MODEL
 type alias Model =
-    { firstNum : Int
-    , secondNum : Int
-    , resultNum : Int
+    { firstNum : Float
+    , secondNum : Float
+    , resultNum : Float
     }
 
 
@@ -58,14 +58,26 @@ update msg model =
                     if model.secondNum == 0 then
                         { model | resultNum = 0}
                     else
-                        { model | resultNum = model.firstNum / model.secondNum }
+                        { model | resultNum =  model.firstNum / model.secondNum }
 
         InputFirstNum input ->
-            { model | firstNum = String.toInt input }
+            { model | firstNum = String.toFloat input }
 
         InputSecondNum input ->
             { model | secondNum = String.toInt input }
 
+--
 
+-- VIEW
+view : Model -> Html Msg
+view model =
+    div []
+        [ input [ value ( String.fromFloat model.firstNum ) , onInput InputSecondNum ] []
+        , input [ value ( String.fromFloat model.secondNum ), onInput InputSecondNum ] []
+        , button [ onClick ( Submit Sum ) ] [ text "+" ]
+        , button [ onClick ( Submit Diff ) ] [ text "-"]
+        , button [ onClick ( Submit Product ) ] [ text "*" ]
+        , button [ onClick ( Submit Quotient ) ] [ text "/"]
+        ]
 
 
