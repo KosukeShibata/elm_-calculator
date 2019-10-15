@@ -17,20 +17,55 @@ type alias Model =
     { firstNum : Int
     , secondNum : Int
     , resultNum : Int
-    , selectOpe : OpeDivision
     }
 
-type OpeDivision
-    = Init
-    | Sum
-    | Diff
-    | Product
-    | Quotient
 
 init : Model
 init =
     { firstNum = 0
     , secondNum = 0
     , resultNum = 0
-    , selectOpe = Init
     }
+
+-- UPDAE
+type Msg
+    = Submit OpeDivision
+    | InputFirstNum String
+    | InputSecondNum String
+
+
+type OpeDivision
+    =  Sum
+    | Diff
+    | Product
+    | Quotient
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        Submit div ->
+            case div of
+                Sum ->
+                    { model | resultNum = model.firstNum + model.secondNum }
+
+                Diff ->
+                    { model | resultNum = model.firstNum - model.secondNum }
+
+                Product ->
+                    { model | resultNum = model.firstNum * model.secondNum }
+
+                Quotient ->
+                    if model.secondNum == 0 then
+                        { model | resultNum = 0}
+                    else
+                        { model | resultNum = model.firstNum / model.secondNum }
+
+        InputFirstNum input ->
+            { model | firstNum = String.toInt input }
+
+        InputSecondNum input ->
+            { model | secondNum = String.toInt input }
+
+
+
+
